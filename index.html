@@ -29,33 +29,11 @@
       overflow-x: hidden;
     }
 
-    /* Custom cursor */
-    * { cursor: none !important; }
-    .cursor {
-      width: 12px; height: 12px;
-      background: var(--gold);
-      border-radius: 50%;
-      position: fixed;
-      top: 0; left: 0;
-      pointer-events: none;
-      z-index: 99999;
-      will-change: transform;
-      transition: width 0.2s, height 0.2s, background 0.2s;
-    }
-    .cursor-ring {
-      width: 40px; height: 40px;
-      border: 1.5px solid var(--gold);
-      border-radius: 50%;
-      position: fixed;
-      top: 0; left: 0;
-      pointer-events: none;
-      z-index: 99998;
-      will-change: transform;
-      opacity: 0.5;
-      transition: width 0.3s, height 0.3s, opacity 0.3s;
-    }
-    .cursor.hovering { width: 6px; height: 6px; background: var(--gold-light); }
-    .cursor-ring.hovering { width: 56px; height: 56px; opacity: 0.3; }
+    /* Custom cursor - SVG method, works on Mac/GitHub Pages */
+    * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23c9a84c'/%3E%3Ccircle cx='20' cy='20' r='17' fill='none' stroke='%23c9a84c' stroke-width='1.2' opacity='0.6'/%3E%3C/svg%3E") 20 20, auto !important; }
+    a, button { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='4' fill='%23e8c97a'/%3E%3Ccircle cx='24' cy='24' r='21' fill='none' stroke='%23e8c97a' stroke-width='1.5' opacity='0.8'/%3E%3C/svg%3E") 24 24, pointer !important; }
+    .cursor { display: none; }
+    .cursor-ring { display: none; }
 
     /* NAV */
     nav {
