@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>REIZA | Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --black:#080808; --deep:#0d0d0d; --gold:#c9a84c; --gold-light:#e8c97a; --cream:#f5f0e8; --muted:#6b6560; --border:rgba(201,168,76,0.2); }
+    *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+    body{background:var(--black);color:var(--cream);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);}
+    .nav-logo{font-family:'Syncopate',sans-serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-decoration:none;}
+    .nav-links{display:flex;gap:40px;list-style:none;}
+    .nav-links a{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--cream);text-decoration:none;opacity:0.7;transition:opacity 0.2s,color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{opacity:1;color:var(--gold);}
+    .section-label{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;color:var(--cream);line-height:1.1;}
+    .section-title em{font-style:italic;color:var(--gold);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    .page-hero{padding:180px 60px 100px;border-bottom:1px solid var(--border);}
+    .page-hero p.intro{font-size:18px;line-height:1.9;color:var(--muted);max-width:600px;margin-top:28px;font-family:'Cormorant Garamond',serif;}
+
+    .services-section{padding:100px 60px;background:var(--deep);border-bottom:1px solid var(--border);}
+    .service-block{display:grid;grid-template-columns:1fr 2fr;gap:80px;padding:80px 0;border-bottom:1px solid var(--border);align-items:start;}
+    .service-block:last-child{border-bottom:none;}
+    .service-left .service-num{font-family:'Cormorant Garamond',serif;font-size:100px;font-weight:300;color:rgba(201,168,76,0.12);line-height:1;}
+    .service-left .service-icon-big{font-size:48px;margin-top:-20px;}
+    .service-left h3{font-family:'Syncopate',sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);margin-top:20px;line-height:1.6;}
+    .service-right h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--cream);margin-bottom:24px;line-height:1.2;}
+    .service-right h2 em{font-style:italic;color:var(--gold);}
+    .service-right p{font-size:15px;line-height:2;color:var(--muted);margin-bottom:20px;}
+    .service-offerings{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .offering-item{border:1px solid var(--border);padding:20px 24px;font-size:13px;color:var(--cream);opacity:0.8;position:relative;padding-left:40px;}
+    .offering-item::before{content:'→';position:absolute;left:16px;color:var(--gold);}
+
+    .cta-section{padding:100px 60px;text-align:center;border-bottom:1px solid var(--border);}
+    .cta-section h2{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--cream);margin-bottom:20px;}
+    .cta-section h2 em{font-style:italic;color:var(--gold);}
+    .cta-section p{font-size:15px;color:var(--muted);max-width:500px;margin:0 auto 48px;}
+    .btn-primary{padding:18px 56px;background:var(--gold);color:var(--black);font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;text-decoration:none;font-weight:700;display:inline-block;transition:background 0.2s,transform 0.2s;}
+    .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);}
+
+    footer{background:var(--black);border-top:1px solid var(--border);padding:60px;display:flex;justify-content:space-between;align-items:center;}
+    .footer-logo{font-family:'Syncopate',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
+    .footer-text{font-size:12px;color:var(--muted);}
+    #live-date{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;}
+    .footer-links{display:flex;gap:28px;list-style:none;}
+    .footer-links a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--gold);}
+
+    @media(max-width:900px){
+      nav{padding:24px 28px;}.nav-links{display:none;}
+      .page-hero,.services-section,.cta-section{padding-left:28px;padding-right:28px;}
+      .service-block{grid-template-columns:1fr;gap:32px;}
+      .service-offerings{grid-template-columns:1fr;}
+      footer{flex-direction:column;gap:20px;padding:40px 28px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">REIZA</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="vision.html">EV Vision</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <p class="section-label">What We Offer</p>
+    <h1 class="section-title">Energy expertise<br><em>at every level</em></h1>
+    <p class="intro">From subsurface to surface, from upstream operations to future energy infrastructure — REIZA offers specialised consultancy grounded in real operational experience in Nigeria's energy sector.</p>
+  </div>
+
+  <div class="services-section">
+
+    <div class="service-block" id="petroleum">
+      <div class="service-left">
+        <div class="service-num">01</div>
+        <div class="service-icon-big">⛽</div>
+        <h3>Petroleum &<br>Oil & Gas</h3>
+      </div>
+      <div class="service-right">
+        <h2>Petroleum & <em>Oil & Gas Advisory</em></h2>
+        <p>REIZA provides expert advisory across the full petroleum value chain — from upstream reservoir analysis and field development planning to midstream and downstream strategy. Our expertise is grounded in hands-on operational experience in Nigeria's most complex producing environments.</p>
+        <p>We help operators make better decisions about their assets, their costs, and their futures — with analysis that draws on real data from real wells, not generic frameworks.</p>
+        <div class="service-offerings">
+          <div class="offering-item">Reservoir & production analysis</div>
+          <div class="offering-item">Field development planning</div>
+          <div class="offering-item">NPT analysis & reduction strategy</div>
+          <div class="offering-item">Well performance optimisation</div>
+          <div class="offering-item">Petroleum economics modelling</div>
+          <div class="offering-item">Asset integrity advisory</div>
+          <div class="offering-item">Regulatory compliance support</div>
+          <div class="offering-item">Operational efficiency review</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-block" id="drilling">
+      <div class="service-left">
+        <div class="service-num">02</div>
+        <div class="service-icon-big">🔩</div>
+        <h3>Drilling<br>Engineering</h3>
+      </div>
+      <div class="service-right">
+        <h2>Drilling <em>Engineering Consultancy</em></h2>
+        <p>Drilling is where plans meet reality — and where costs are made or broken. REIZA's drilling advisory services are led by a practising drilling engineer with direct field experience across Niger Delta operations, including well planning, contractor management, and end-of-well reporting.</p>
+        <p>We provide independent technical review and advisory that helps operators control well costs, manage contractors effectively, and capture lessons that actually improve the next well.</p>
+        <div class="service-offerings">
+          <div class="offering-item">Well programme review & planning</div>
+          <div class="offering-item">Drilling cost benchmarking</div>
+          <div class="offering-item">NPT root cause analysis</div>
+          <div class="offering-item">End-of-well report preparation</div>
+          <div class="offering-item">Contractor performance review</div>
+          <div class="offering-item">Daily drilling report analysis</div>
+          <div class="offering-item">Sidetrack feasibility assessment</div>
+          <div class="offering-item">Casing design review</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-block" id="geothermal">
+      <div class="service-left">
+        <div class="service-num">03</div>
+        <div class="service-icon-big">🌋</div>
+        <h3>Geothermal<br>Energy</h3>
+      </div>
+      <div class="service-right">
+        <h2>Geothermal <em>Energy Advisory</em></h2>
+        <p>Geothermal energy is West Africa's most underexplored clean energy resource — and REIZA is one of the few Nigerian consultancies actively building expertise in this space. We provide technical advisory for geothermal project development, including feasibility assessment and integration with existing oil & gas infrastructure.</p>
+        <p>Our approach is grounded in the recognition that the skills and engineering principles of petroleum drilling are highly transferable to geothermal — making Nigeria's existing technical workforce a key asset in geothermal development.</p>
+        <div class="service-offerings">
+          <div class="offering-item">Geothermal feasibility assessments</div>
+          <div class="offering-item">Resource potential evaluation</div>
+          <div class="offering-item">Petroleum-to-geothermal repurposing</div>
+          <div class="offering-item">Technical advisory & project support</div>
+          <div class="offering-item">Regulatory landscape analysis</div>
+          <div class="offering-item">Investment case preparation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-block" id="transition">
+      <div class="service-left">
+        <div class="service-num">04</div>
+        <div class="service-icon-big">⚡</div>
+        <h3>Energy<br>Transition</h3>
+      </div>
+      <div class="service-right">
+        <h2>Energy Transition <em>Strategy</em></h2>
+        <p>The energy transition is not one-size-fits-all. For Nigerian companies, government agencies, and investors navigating this complex landscape, REIZA provides grounded, Africa-centred transition strategy — one that acknowledges the realities of the Nigerian energy market while charting a credible path toward cleaner power.</p>
+        <p>We help clients understand where opportunities exist, where risks are concentrated, and how to position themselves for the energy landscape of 2030 and beyond.</p>
+        <div class="service-offerings">
+          <div class="offering-item">Transition readiness assessment</div>
+          <div class="offering-item">Clean energy market analysis</div>
+          <div class="offering-item">EV infrastructure strategy</div>
+          <div class="offering-item">Carbon & sustainability advisory</div>
+          <div class="offering-item">Investment opportunity mapping</div>
+          <div class="offering-item">Stakeholder engagement support</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cta-section">
+    <h2>Ready to work<br><em>with REIZA?</em></h2>
+    <p>Tell us about your project or energy challenge. We'll respond within 48 hours.</p>
+    <a href="contact.html" class="btn-primary">Get In Touch</a>
+  </div>
+
+  <footer>
+    <div class="footer-logo">REIZA</div>
+    <div>
+      <div id="live-date"></div>
+      <div class="footer-text" style="margin-top:6px;">© 2026 REIZA Energy Consultancy</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    function updateDate() {
+      const el = document.getElementById('live-date');
+      if (!el) return;
+      el.textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric', timeZone:'Africa/Lagos' });
+    }
+    updateDate();
+  </script>
+</body>
+</html>

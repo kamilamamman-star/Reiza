@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>REIZA | Contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#080808;--deep:#0d0d0d;--gold:#c9a84c;--gold-light:#e8c97a;--cream:#f5f0e8;--muted:#6b6560;--border:rgba(201,168,76,0.2);}
+    *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+    body{background:var(--black);color:var(--cream);font-family:'DM Sans',sans-serif;font-weight:300;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);}
+    .nav-logo{font-family:'Syncopate',sans-serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-decoration:none;}
+    .nav-links{display:flex;gap:40px;list-style:none;}
+    .nav-links a{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--cream);text-decoration:none;opacity:0.7;transition:opacity 0.2s,color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{opacity:1;color:var(--gold);}
+
+    .page-hero{padding:180px 60px 100px;border-bottom:1px solid var(--border);}
+    .page-hero p.label{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+    .page-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,96px);font-weight:300;color:var(--cream);line-height:1.0;}
+    .page-hero h1 em{font-style:italic;color:var(--gold);}
+    .page-hero .sub{font-size:16px;line-height:1.9;color:var(--muted);max-width:520px;margin-top:28px;}
+
+    .contact-main{padding:100px 60px;background:var(--deep);border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1.4fr;gap:100px;}
+    .contact-info h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--cream);margin-bottom:32px;}
+    .contact-info h2 em{font-style:italic;color:var(--gold);}
+    .contact-info p{font-size:14px;line-height:2;color:var(--muted);margin-bottom:48px;}
+    .contact-details{display:flex;flex-direction:column;gap:28px;}
+    .detail{border-left:2px solid var(--border);padding-left:24px;}
+    .detail-label{font-family:'Syncopate',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+    .detail-val{font-size:14px;color:var(--cream);opacity:0.75;}
+
+    .contact-form-wrap{}
+    .form-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream);margin-bottom:40px;}
+    .form-title em{font-style:italic;color:var(--gold);}
+    .contact-form{display:flex;flex-direction:column;gap:24px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .form-group{display:flex;flex-direction:column;gap:10px;}
+    .form-label{font-family:'Syncopate',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);}
+    .form-input,.form-textarea,.form-select{background:transparent;border:1px solid var(--border);padding:16px 20px;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;}
+    .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--gold);}
+    .form-textarea{resize:vertical;min-height:160px;}
+    .form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+    .form-select option{background:var(--deep);color:var(--cream);}
+    .btn-submit{padding:20px 60px;background:var(--gold);color:var(--black);font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;font-weight:700;border:none;cursor:pointer;transition:background 0.2s,transform 0.2s;width:100%;}
+    .btn-submit:hover{background:var(--gold-light);transform:translateY(-2px);}
+    .success-msg{display:none;padding:24px;border:1px solid var(--gold);font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--gold);text-align:center;margin-top:20px;}
+
+    footer{background:var(--black);border-top:1px solid var(--border);padding:60px;display:flex;justify-content:space-between;align-items:center;}
+    .footer-logo{font-family:'Syncopate',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
+    .footer-text{font-size:12px;color:var(--muted);}
+    #live-date{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;}
+    .footer-links{display:flex;gap:28px;list-style:none;}
+    .footer-links a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--gold);}
+
+    @media(max-width:900px){
+      nav{padding:24px 28px;}.nav-links{display:none;}
+      .page-hero,.contact-main{padding-left:28px;padding-right:28px;}
+      .contact-main{grid-template-columns:1fr;gap:60px;}
+      .form-row{grid-template-columns:1fr;}
+      footer{flex-direction:column;gap:20px;padding:40px 28px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">REIZA</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="vision.html">EV Vision</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <p class="label">Get In Touch</p>
+    <h1>Work with<br><em>REIZA</em></h1>
+    <p class="sub">Whether you have an energy challenge, a project to discuss, or simply want to connect — we're ready to listen and respond within 48 hours.</p>
+  </div>
+
+  <div class="contact-main">
+    <div class="contact-info">
+      <h2>Let's start a <em>conversation</em></h2>
+      <p>REIZA works with operators, investors, developers, and individuals who are navigating the Nigerian and West African energy landscape. If your work touches energy — we probably have something to offer.</p>
+      <div class="contact-details">
+        <div class="detail">
+          <div class="detail-label">Email</div>
+          <div class="detail-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7018151c1c1f300215190a11151e150217095e131f1d">[email&#160;protected]</a></div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Based In</div>
+          <div class="detail-val">Nigeria</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Service Area</div>
+          <div class="detail-val">Nigeria · West Africa · Global Remote</div>
+        </div>
+        <div class="detail">
+          <div class="detail-label">Response Time</div>
+          <div class="detail-val">Within 48 hours</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap">
+      <h2 class="form-title">Send us a <em>message</em></h2>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-input" placeholder="First name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-input" placeholder="Last name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Organisation (optional)</label>
+          <input type="text" class="form-input" placeholder="Company or organisation">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Service Interest</label>
+          <select class="form-select">
+            <option value="">Select a service area…</option>
+            <option>Petroleum & Oil & Gas Advisory</option>
+            <option>Drilling Engineering Consultancy</option>
+            <option>Geothermal Energy Advisory</option>
+            <option>Energy Transition Strategy</option>
+            <option>EV Infrastructure</option>
+            <option>General Enquiry</option>
+            <option>Media / Press</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Message</label>
+          <textarea class="form-textarea" placeholder="Tell us about your project, challenge, or question…" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send Message</button>
+        <div class="success-msg" id="successMsg">
+          Thank you. REIZA will be in touch within 48 hours.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">REIZA</div>
+    <div>
+      <div id="live-date"></div>
+      <div class="footer-text" style="margin-top:6px;">© 2026 REIZA Energy Consultancy</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Insights</a></li>
+    </ul>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('successMsg').style.display = 'block';
+      e.target.reset();
+      setTimeout(() => { document.getElementById('successMsg').style.display = 'none'; }, 5000);
+    }
+    function updateDate() { const el=documen

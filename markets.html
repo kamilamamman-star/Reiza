@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>REIZA | Energy Markets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--black:#080808;--deep:#0d0d0d;--gold:#c9a84c;--gold-light:#e8c97a;--cream:#f5f0e8;--muted:#6b6560;--border:rgba(201,168,76,0.2);--green:#4caf82;--red:#c94c4c;}
+    *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+    body{background:var(--black);color:var(--cream);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);}
+    .nav-logo{font-family:'Syncopate',sans-serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-decoration:none;}
+    .nav-links{display:flex;gap:40px;list-style:none;}
+    .nav-links a{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--cream);text-decoration:none;opacity:0.7;transition:opacity 0.2s,color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{opacity:1;color:var(--gold);}
+
+    .page-hero{padding:160px 60px 80px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:40px;}
+    .hero-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,6vw,80px);font-weight:300;color:var(--cream);line-height:1.05;}
+    .hero-left h1 em{font-style:italic;color:var(--gold);}
+    .hero-left p.label{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+    .live-stamp{text-align:right;}
+    .live-indicator{display:inline-flex;align-items:center;gap:8px;font-family:'Syncopate',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
+    .live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:blink 1.5s ease-in-out infinite;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    #live-datetime{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--cream);opacity:0.7;}
+    #live-time{font-family:'Syncopate',sans-serif;font-size:28px;color:var(--gold);letter-spacing:0.1em;}
+
+    /* PRICE BOARD */
+    .price-board{padding:80px 60px;background:var(--deep);border-bottom:1px solid var(--border);}
+    .price-label{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:48px;}
+    .prices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+    .price-card{background:var(--deep);padding:48px 36px;position:relative;overflow:hidden;}
+    .price-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.5s ease;}
+    .price-card.loaded::after{transform:scaleX(1);}
+    .price-commodity{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+    .price-ticker{font-size:11px;color:rgba(201,168,76,0.5);margin-bottom:20px;}
+    .price-value{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--cream);line-height:1;}
+    .price-unit{font-size:12px;color:var(--muted);margin-top:4px;}
+    .price-change{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.1em;}
+    .price-change.up{color:var(--green);}
+    .price-change.down{color:var(--red);}
+    .price-update{font-size:10px;color:var(--muted);margin-top:10px;opacity:0.6;}
+    .loading-pulse{animation:pulse 1.5s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
+
+    /* MARKET CONTEXT */
+    .market-context{padding:80px 60px;border-bottom:1px solid var(--border);}
+    .context-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px;}
+    .context-box{border:1px solid var(--border);padding:40px;}
+    .context-box h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--cream);margin-bottom:16px;}
+    .context-box h3 em{font-style:italic;color:var(--gold);}
+    .context-box p{font-size:13px;line-height:1.9;color:var(--muted);}
+    .context-label{font-family:'Syncopate',sans-serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+
+    /* DISCLAIMER */
+    .disclaimer{padding:40px 60px;border-bottom:1px solid var(--border);background:var(--deep);}
+    .disclaimer p{font-size:11px;color:var(--muted);line-height:1.7;max-width:800px;}
+
+    footer{background:var(--black);border-top:1px solid var(--border);padding:60px;display:flex;justify-content:space-between;align-items:center;}
+    .footer-logo{font-family:'Syncopate',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
+    .footer-text{font-size:12px;color:var(--muted);}
+    .footer-links{display:flex;gap:28px;list-style:none;}
+    .footer-links a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--gold);}
+
+    @media(max-width:1100px){.prices-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:900px){
+      nav{padding:24px 28px;}.nav-links{display:none;}
+      .page-hero,.price-board,.market-context,.disclaimer{padding-left:28px;padding-right:28px;}
+      .page-hero{flex-direction:column;align-items:flex-start;}
+      .live-stamp{text-align:left;}
+      .prices-grid{grid-template-columns:1fr;}
+      .context-grid{grid-template-columns:1fr;}
+      footer{flex-direction:column;gap:20px;padding:40px 28px;text-align:center;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">REIZA</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="vision.html">EV Vision</a></li>
+      <li><a href="markets.html" class="active">Markets</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="hero-left">
+      <p class="label">Energy Markets</p>
+      <h1>Commodity<br><em>Intelligence</em></h1>
+    </div>
+    <div class="live-stamp">
+      <div class="live-indicator">
+        <div class="live-dot"></div>
+        Live · Lagos Time
+      </div>
+      <div id="live-time">--:--:--</div>
+      <div id="live-datetime" style="margin-top:8px;">--</div>
+    </div>
+  </div>
+
+  <div class="price-board">
+    <p class="price-label">Live Energy Prices · Powered by OilPrice.com</p>
+    <div style="background:var(--deep); border:1px solid var(--border); padding: 40px;">
+      <!-- OilPrice.com Live Widget -->
+      <script src="https://widgets.oilprice.com/scripts/opwidget.js"></script>
+      <div id="op-widget-crude-brent" class="op-widget" data-widget="crude-price-opwidget" data-type="brent" style="margin-bottom:24px;"></div>
+      <div id="op-widget-crude-wti" class="op-widget" data-widget="crude-price-opwidget" data-type="wti" style="margin-bottom:24px;"></div>
+      <div id="op-widget-gas" class="op-widget" data-widget="crude-price-opwidget" data-type="natural-gas" style="margin-bottom:24px;"></div>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:16px;letter-spacing:0.05em;">
+      Live prices sourced from <a href="https://oilprice.com" target="_blank" style="color:var(--gold);text-decoration:none;">OilPrice.com</a> · Bonny Light trades at a premium of approximately $1.50–$2.00 above Brent Crude.
+    </p>
+  </div>
+
+  <div class="market-context">
+    <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Context</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,52px);font-weight:300;color:var(--cream);">What the numbers <em>mean</em></h2>
+    <div class="context-grid">
+      <div class="context-box">
+        <p class="context-label">Brent vs WTI</p>
+        <h3>The global <em>benchmark split</em></h3>
+        <p>Brent crude is the primary global benchmark, priced from North Sea production and used as the reference for the majority of internationally traded oil — including Nigerian grades. WTI (West Texas Intermediate) is the US benchmark and typically trades at a small discount to Brent. For Nigerian operators, Brent is the relevant benchmark for evaluating revenue projections and fiscal break-even analysis.</p>
+      </div>
+      <div class="context-box">
+        <p class="context-label">Bonny Light</p>
+        <h3>Nigeria's <em>flagship crude</em></h3>
+        <p>Bonny Light is Nigeria's highest-profile crude export — a sweet, low-sulphur grade that commands a premium close to Brent. It is produced primarily in the Niger Delta and transported via the Trans Niger Pipeline to the Bonny terminal for export. Bonny Light's premium to Brent reflects its high refinery yield of valuable light products and its desirability among European and Asian refiners.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <p>⚠ Price data is indicative and sourced from public market data APIs. Prices may be delayed by 15–20 minutes. This page is for informational purposes only and does not constitute financial or trading advice. REIZA Energy is not a licensed financial advisory firm. Always consult qualified financial professionals for investment decisions.</p>
+  </div>
+
+  <footer>
+    <div class="footer-logo">REIZA</div>
+    <div class="footer-text">© 2026 REIZA Energy Consultancy</div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Insights</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Live clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('live-time').textContent = now.toLocaleTimeString('en-GB', { timeZone:'Africa/Lagos', hour:'2-digit', minute:'2-digit', second:'2-digit' });
+      document.getElementById('live-datetime').textContent = now.toLocaleDateString('en-GB', { timeZone:'Africa/Lagos', weekday:'long', day:'numeric', month:'long', year:'numeric' });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+ // refresh every 5 minutes
+  </script>
+</body>
+</html>
