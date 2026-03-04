@@ -6,6 +6,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    /* Custom cursor - SVG method */
+    * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23c9a84c'/%3E%3Ccircle cx='20' cy='20' r='17' fill='none' stroke='%23c9a84c' stroke-width='1.2' opacity='0.6'/%3E%3C/svg%3E") 20 20, auto !important; }
+    a, button { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='4' fill='%23e8c97a'/%3E%3Ccircle cx='24' cy='24' r='21' fill='none' stroke='%23e8c97a' stroke-width='1.5' opacity='0.8'/%3E%3C/svg%3E") 24 24, pointer !important; }
     :root{--black:#080808;--deep:#0d0d0d;--gold:#c9a84c;--gold-light:#e8c97a;--cream:#f5f0e8;--muted:#6b6560;--border:rgba(201,168,76,0.2);--green:#4caf82;--red:#c94c4c;}
     *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
     body{background:var(--black);color:var(--cream);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
@@ -107,15 +110,35 @@
 
   <div class="price-board">
     <p class="price-label">Live Energy Prices · Powered by OilPrice.com</p>
-    <div style="background:var(--deep); border:1px solid var(--border); padding: 40px;">
-      <!-- OilPrice.com Live Widget -->
-      <script src="https://widgets.oilprice.com/scripts/opwidget.js"></script>
-      <div id="op-widget-crude-brent" class="op-widget" data-widget="crude-price-opwidget" data-type="brent" style="margin-bottom:24px;"></div>
-      <div id="op-widget-crude-wti" class="op-widget" data-widget="crude-price-opwidget" data-type="wti" style="margin-bottom:24px;"></div>
-      <div id="op-widget-gas" class="op-widget" data-widget="crude-price-opwidget" data-type="natural-gas" style="margin-bottom:24px;"></div>
+    <div style="display:grid; grid-template-columns: repeat(2,1fr); gap: 24px;">
+
+      <!-- Brent Crude -->
+      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
+        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Brent Crude · USD/bbl</p>
+        <iframe src="https://oilprice.com/widget/price/brent" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      </div>
+
+      <!-- WTI Crude -->
+      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
+        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">WTI Crude · USD/bbl</p>
+        <iframe src="https://oilprice.com/widget/price/wti" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      </div>
+
+      <!-- Natural Gas -->
+      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
+        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Natural Gas · USD/MMBtu</p>
+        <iframe src="https://oilprice.com/widget/price/natural-gas" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      </div>
+
+      <!-- Bonny Light -->
+      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
+        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Bonny Light · Nigeria Flagship</p>
+        <iframe src="https://oilprice.com/widget/price/bonny-light" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      </div>
+
     </div>
-    <p style="font-size:11px;color:var(--muted);margin-top:16px;letter-spacing:0.05em;">
-      Live prices sourced from <a href="https://oilprice.com" target="_blank" style="color:var(--gold);text-decoration:none;">OilPrice.com</a> · Bonny Light trades at a premium of approximately $1.50–$2.00 above Brent Crude.
+    <p style="font-size:11px;color:var(--muted);margin-top:20px;letter-spacing:0.05em;">
+      Live prices sourced from <a href="https://oilprice.com" target="_blank" style="color:var(--gold);text-decoration:none;">OilPrice.com</a> · Data refreshes automatically.
     </p>
   </div>
 
