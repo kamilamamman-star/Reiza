@@ -30,7 +30,18 @@
     #live-time{font-family:'Syncopate',sans-serif;font-size:28px;color:var(--gold);letter-spacing:0.1em;}
 
     /* PRICE BOARD */
-    .price-board{padding:80px 60px;background:var(--deep);border-bottom:1px solid var(--border);}
+    .price-card{background:var(--deep);padding:48px 36px;position:relative;overflow:hidden;}
+    .price-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.6s ease;}
+    .price-card.loaded::after{transform:scaleX(1);}
+    .price-commodity{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+    .price-ticker{font-size:11px;color:rgba(201,168,76,0.4);margin-bottom:20px;}
+    .price-value{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:var(--cream);line-height:1;}
+    .price-change{margin-top:16px;font-family:'Syncopate',sans-serif;font-size:10px;letter-spacing:0.1em;}
+    .price-change.up{color:#4caf82;}
+    .price-change.down{color:#c94c4c;}
+    .price-update{font-size:10px;color:var(--muted);margin-top:8px;opacity:0.6;}
+    .loading-pulse{animation:lpulse 1.2s ease-in-out infinite;}
+    @keyframes lpulse{0%,100%{opacity:0.2}50%{opacity:0.7}}
     .price-label{font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:48px;}
     .prices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
     .price-card{background:var(--deep);padding:48px 36px;position:relative;overflow:hidden;}
@@ -109,36 +120,44 @@
   </div>
 
   <div class="price-board">
-    <p class="price-label">Live Energy Prices · Powered by OilPrice.com</p>
-    <div style="display:grid; grid-template-columns: repeat(2,1fr); gap: 24px;">
+    <p class="price-label">Live Energy Prices</p>
+    <div style="display:grid; grid-template-columns: repeat(2,1fr); gap: 1px; background:var(--border);">
 
-      <!-- Brent Crude -->
-      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
-        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Brent Crude · USD/bbl</p>
-        <iframe src="https://oilprice.com/widget/price/brent" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      <div class="price-card" id="card-brent">
+        <div class="price-commodity">Brent Crude</div>
+        <div class="price-ticker">ICE · USD/bbl</div>
+        <div class="price-value" id="brent-price"><span class="loading-pulse">—</span></div>
+        <div class="price-change" id="brent-change"></div>
+        <div class="price-update" id="brent-update">Loading…</div>
       </div>
 
-      <!-- WTI Crude -->
-      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
-        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">WTI Crude · USD/bbl</p>
-        <iframe src="https://oilprice.com/widget/price/wti" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      <div class="price-card" id="card-wti">
+        <div class="price-commodity">WTI Crude</div>
+        <div class="price-ticker">NYMEX · USD/bbl</div>
+        <div class="price-value" id="wti-price"><span class="loading-pulse">—</span></div>
+        <div class="price-change" id="wti-change"></div>
+        <div class="price-update" id="wti-update">Loading…</div>
       </div>
 
-      <!-- Natural Gas -->
-      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
-        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Natural Gas · USD/MMBtu</p>
-        <iframe src="https://oilprice.com/widget/price/natural-gas" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      <div class="price-card" id="card-ng">
+        <div class="price-commodity">Natural Gas</div>
+        <div class="price-ticker">NYMEX · USD/MMBtu</div>
+        <div class="price-value" id="ng-price"><span class="loading-pulse">—</span></div>
+        <div class="price-change" id="ng-change"></div>
+        <div class="price-update" id="ng-update">Loading…</div>
       </div>
 
-      <!-- Bonny Light -->
-      <div style="background:var(--black); border:1px solid var(--border); padding:32px;">
-        <p style="font-family:'Syncopate',sans-serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Bonny Light · Nigeria Flagship</p>
-        <iframe src="https://oilprice.com/widget/price/bonny-light" width="100%" height="80" frameborder="0" scrolling="no" style="background:transparent;"></iframe>
+      <div class="price-card" id="card-bonny">
+        <div class="price-commodity">Bonny Light</div>
+        <div class="price-ticker">Nigeria · USD/bbl</div>
+        <div class="price-value" id="bonny-price"><span class="loading-pulse">—</span></div>
+        <div class="price-change" id="bonny-change"></div>
+        <div class="price-update" id="bonny-update">Est. vs Brent</div>
       </div>
 
     </div>
     <p style="font-size:11px;color:var(--muted);margin-top:20px;letter-spacing:0.05em;">
-      Live prices sourced from <a href="https://oilprice.com" target="_blank" style="color:var(--gold);text-decoration:none;">OilPrice.com</a> · Data refreshes automatically.
+      Prices sourced via market data · Delayed 15–20 min · Bonny Light estimated at Brent + $1.50 premium
     </p>
   </div>
 
@@ -183,7 +202,63 @@
     updateClock();
     setInterval(updateClock, 1000);
 
- // refresh every 5 minutes
+    // Live prices via Yahoo Finance proxied through allorigins
+    async function fetchPrice(symbol) {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=2d`;
+      const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+      const res = await fetch(proxy);
+      const data = await res.json();
+      const parsed = JSON.parse(data.contents);
+      const meta = parsed.chart.result[0].meta;
+      const price = meta.regularMarketPrice;
+      const prev = meta.chartPreviousClose || meta.regularMarketPreviousClose;
+      const change = price - prev;
+      const pct = (change / prev) * 100;
+      return { price, change, pct };
+    }
+
+    function renderPrice(id, price, change, pct, note) {
+      document.getElementById(`${id}-price`).innerHTML = price.toFixed(2);
+      const changeEl = document.getElementById(`${id}-change`);
+      const arrow = change >= 0 ? '▲' : '▼';
+      const sign = change >= 0 ? '+' : '';
+      changeEl.textContent = `${arrow} ${sign}${change.toFixed(2)}  (${sign}${pct.toFixed(2)}%)`;
+      changeEl.className = `price-change ${change >= 0 ? 'up' : 'down'}`;
+      document.getElementById(`${id}-update`).textContent = note;
+      document.getElementById(`card-${id}`).classList.add('loaded');
+    }
+
+    function renderError(id) {
+      document.getElementById(`${id}-price`).innerHTML = 'N/A';
+      document.getElementById(`${id}-update`).textContent = 'Data unavailable';
+    }
+
+    async function loadAllPrices() {
+      const now = new Date().toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', timeZone:'Africa/Lagos' });
+
+      // Brent
+      try {
+        const d = await fetchPrice('BZ=F');
+        renderPrice('brent', d.price, d.change, d.pct, `Updated ${now} WAT`);
+        // Bonny Light = Brent + $1.50
+        renderPrice('bonny', d.price + 1.5, d.change, d.pct, 'Est. Brent + $1.50 premium');
+      } catch(e) { renderError('brent'); renderError('bonny'); }
+
+      // WTI
+      try {
+        const d = await fetchPrice('CL=F');
+        renderPrice('wti', d.price, d.change, d.pct, `Updated ${now} WAT`);
+      } catch(e) { renderError('wti'); }
+
+      // Natural Gas
+      try {
+        const d = await fetchPrice('NG=F');
+        renderPrice('ng', d.price, d.change, d.pct, `Updated ${now} WAT`);
+      } catch(e) { renderError('ng'); }
+    }
+
+    loadAllPrices();
+    setInterval(loadAllPrices, 5 * 60 * 1000);
   </script>
 </body>
 </html>
