@@ -150,6 +150,7 @@
       <li><a href="markets.html">Markets</a></li>
       <li><a href="contact.html" class="active">Contact</a></li>
     </ul>
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">🌙</button>
   </nav>
 
   <div class="page-hero">
@@ -241,7 +242,24 @@
     </ul>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+    // Dark/Light mode toggle
+    const toggle = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('reiza-theme');
+    if (saved === 'light') {
+      document.body.classList.add('light');
+      if(toggle) toggle.textContent = '☀️';
+    }
+    if(toggle) {
+      toggle.addEventListener('click', () => {
+        document.body.classList.toggle('light');
+        const isLight = document.body.classList.contains('light');
+        toggle.textContent = isLight ? '☀️' : '🌙';
+        localStorage.setItem('reiza-theme', isLight ? 'light' : 'dark');
+      });
+    }
+
+  </script><script>
     function handleSubmit(e) {
       e.preventDefault();
       document.getElementById('successMsg').style.display = 'block';
