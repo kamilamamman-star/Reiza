@@ -73,14 +73,24 @@
     }
     .nav-links a:hover { opacity: 1; color: var(--gold); }
 
-    /* HERO */
+    /* Hero image */
     .hero {
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
       position: relative;
       overflow: hidden;
       padding: 0 60px;
+      background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1800&q=80');
+      background-size: cover;
+      background-position: center;
     }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.75) 50%, rgba(8,8,8,0.95) 100%);
+      z-index: 1;
+    }
+    .hero-grid, .hero-glow, .hero-content, .hero-scroll { z-index: 2; }
 
     /* Animated grid background */
     .hero-grid {
@@ -518,6 +528,78 @@
       .ev-circle { width: 240px; height: 240px; }
       .ev-circle-inner .big { font-size: 56px; }
     }
+
+    /* ── LIGHT MODE TOGGLE ── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: border-color 0.2s, transform 0.3s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--gold); transform: rotate(20deg); }
+
+    /* Light mode overrides */
+    body.light {
+      --black: #F8F4EE;
+      --deep: #EDE8E0;
+      --cream: #1A1A1A;
+      --muted: #6b6560;
+      --border: rgba(201,168,76,0.35);
+      background: #F8F4EE;
+      color: #1A1A1A;
+    }
+    body.light nav {
+      background: rgba(248,244,238,0.97) !important;
+    }
+    body.light .about-strip,
+    body.light .blog-preview,
+    body.light .contact,
+    body.light .ev-vision,
+    body.light footer {
+      background: #EDE8E0;
+    }
+    body.light .services,
+    body.light .blog-listing,
+    body.light .services-section,
+    body.light .about-main,
+    body.light .why-ev,
+    body.light .expertise,
+    body.light .contact-main,
+    body.light .market-context {
+      background: #F8F4EE;
+    }
+    body.light .service-card,
+    body.light .article-card,
+    body.light .blog-card,
+    body.light .price-card,
+    body.light .context-box,
+    body.light .sidebar-box,
+    body.light .expertise-card,
+    body.light .why-card,
+    body.light .timeline-dot {
+      background: #FFFFFF;
+    }
+    body.light .hero-title,
+    body.light .section-title,
+    body.light h1, body.light h2, body.light h3 {
+      color: #1A1A1A;
+    }
+    body.light .nav-links a { color: #1A1A1A; }
+    body.light .footer-logo { color: var(--gold); }
+    body.light .form-input,
+    body.light .form-textarea,
+    body.light .form-select {
+      background: #FFFFFF;
+      color: #1A1A1A;
+      border-color: rgba(201,168,76,0.3);
+    }
+    body.light .ev-vision::before { color: rgba(201,168,76,0.06); }
+    body.light * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23c9a84c'/%3E%3Ccircle cx='20' cy='20' r='17' fill='none' stroke='%23c9a84c' stroke-width='1.2' opacity='0.6'/%3E%3C/svg%3E") 20 20, auto !important; }
+
   </style>
 </head>
 <body>
@@ -630,18 +712,21 @@
     </div>
     <div class="blog-grid">
       <a href="blog.html#article1" class="blog-card">
+        <div style="height:180px;background:url('https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=600&q=80') center/cover;margin:-40px -36px 28px;filter:brightness(0.6);"></div>
         <p class="blog-tag">Drilling</p>
         <h3 class="blog-title">The True Cost of Non-Productive Time in Nigerian Wells</h3>
         <p class="blog-excerpt">NPT remains one of the most significant value destroyers in upstream operations. Here's what the data tells us — and how to fight back.</p>
         <div class="blog-meta">REIZA · Jan 2026</div>
       </a>
       <a href="blog.html#article2" class="blog-card">
+        <div style="height:180px;background:url('https://images.unsplash.com/photo-1548337138-e87d889cc369?w=600&q=80') center/cover;margin:-40px -36px 28px;filter:brightness(0.6);"></div>
         <p class="blog-tag">Geothermal</p>
         <h3 class="blog-title">Why West Africa Needs to Take Geothermal Seriously</h3>
         <p class="blog-excerpt">The continent sits on vast geothermal potential. The question isn't if — it's when, and who will lead the charge.</p>
         <div class="blog-meta">REIZA · Feb 2026</div>
       </a>
       <a href="blog.html#article3" class="blog-card">
+        <div style="height:180px;background:url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80') center/cover;margin:-40px -36px 28px;filter:brightness(0.6);"></div>
         <p class="blog-tag">Energy Transition</p>
         <h3 class="blog-title">Oil & Gas is Not the Enemy of a Just Energy Transition</h3>
         <p class="blog-excerpt">Africa's energy transition must be built on African terms — and indigenous hydrocarbons have a role to play in funding the future.</p>
