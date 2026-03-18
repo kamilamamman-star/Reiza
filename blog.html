@@ -109,19 +109,7 @@
       footer{flex-direction:column;gap:20px;padding:40px 28px;text-align:center;}
     }
 
-    /* ── LIGHT MODE TOGGLE ── */
-    .theme-toggle {
-      background: none;
-      border: 1px solid var(--border);
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      transition: border-color 0.2s, transform 0.3s;
-      flex-shrink: 0;
-    }
-    .theme-toggle:hover { border-color: var(--gold); transform: rotate(20deg); }
-
+    
     /* Light mode overrides */
     body.light {
       --black: #F8F4EE;
@@ -179,6 +167,55 @@
     }
     body.light .ev-vision::before { color: rgba(201,168,76,0.06); }
     body.light * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23c9a84c'/%3E%3Ccircle cx='20' cy='20' r='17' fill='none' stroke='%23c9a84c' stroke-width='1.2' opacity='0.6'/%3E%3C/svg%3E") 20 20, auto !important; }
+
+
+    /* ── LIGHT MODE TOGGLE ── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: border-color 0.2s, transform 0.3s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--gold); transform: rotate(20deg); }
+
+    body.light {
+      background: #F8F4EE !important;
+      color: #1A1A1A !important;
+    }
+    body.light nav, body.light nav.scrolled {
+      background: rgba(248,244,238,0.97) !important;
+    }
+    body.light section,
+    body.light .about-strip, body.light .about-left, body.light .about-right,
+    body.light .about-main, body.light .services, body.light .blog-preview,
+    body.light .blog-listing, body.light .ev-vision, body.light .contact,
+    body.light .contact-main, body.light .philosophy, body.light .expertise,
+    body.light .why-ev, body.light .roadmap, body.light .vision-statement,
+    body.light .follow-section, body.light .market-context, body.light .price-board,
+    body.light .disclaimer, body.light .services-section, body.light .cta-section,
+    body.light .page-hero ~ * { background: #F8F4EE !important; }
+    body.light .about-right, body.light .featured-meta, body.light .blog-card,
+    body.light .service-card, body.light .article-card, body.light .sidebar-box,
+    body.light .expertise-card, body.light .why-card, body.light .context-box,
+    body.light .price-card, body.light .vs-quote, body.light footer { background: #EDE8E0 !important; }
+    body.light h1, body.light h2, body.light h3, body.light .hero-title,
+    body.light .section-title, body.light .about-text, body.light .about-body p,
+    body.light .sidebar-val, body.light .service-desc, body.light .article-title,
+    body.light .blog-title, body.light .article-excerpt, body.light .blog-excerpt,
+    body.light .timeline-desc, body.light .ev-text p, body.light .vs-text p,
+    body.light .context-box p, body.light .contact-info p, body.light .full-article-body p,
+    body.light .why-desc, body.light .detail-val, body.light .footer-text,
+    body.light .price-value { color: #1A1A1A !important; }
+    body.light .nav-links a { color: #1A1A1A !important; opacity: 0.8 !important; }
+    body.light .form-input, body.light .form-textarea, body.light .form-select {
+      background: #FFFFFF !important; color: #1A1A1A !important;
+    }
+    body.light .form-input::placeholder, body.light .form-textarea::placeholder { color: #9a9490 !important; }
+    body.light .hero-subtitle, body.light .hero-sub { color: #4a4540 !important; }
 
   </style>
 </head>
