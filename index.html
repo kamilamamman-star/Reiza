@@ -1,670 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>REIZA | Energy Consultancy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+
     :root {
-      --black: #080808;
-      --deep: #0d0d0d;
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --cream: #f5f0e8;
-      --muted: #6b6560;
+      --black: #080808; --deep: #0d0d0d; --gold: #c9a84c;
+      --gold-light: #e8c97a; --cream: #f5f0e8; --muted: #6b6560;
       --border: rgba(201,168,76,0.2);
     }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--black); color:var(--cream); font-family:'DM Sans',sans-serif; font-weight:300; overflow-x:hidden; transition: background 0.4s, color 0.4s; }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--black);
-      color: var(--cream);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-    }
-
-    /* Custom cursor - SVG method, works on Mac/GitHub Pages */
+    /* ── CURSOR ── */
     * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23c9a84c'/%3E%3Ccircle cx='20' cy='20' r='17' fill='none' stroke='%23c9a84c' stroke-width='1.2' opacity='0.6'/%3E%3C/svg%3E") 20 20, auto !important; }
     a, button { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='4' fill='%23e8c97a'/%3E%3Ccircle cx='24' cy='24' r='21' fill='none' stroke='%23e8c97a' stroke-width='1.5' opacity='0.8'/%3E%3C/svg%3E") 24 24, pointer !important; }
-    .cursor { display: none; }
-    .cursor-ring { display: none; }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 28px 60px;
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.4s, background 0.4s;
-    }
-    nav.scrolled {
-      background: rgba(8,8,8,0.95);
-      border-bottom-color: var(--border);
-      backdrop-filter: blur(12px);
-    }
-    .nav-logo {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.12em;
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex; gap: 40px; list-style: none;
-    }
-    .nav-links a {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--cream);
-      text-decoration: none;
-      opacity: 0.7;
-      transition: opacity 0.2s, color 0.2s;
-    }
-    .nav-links a:hover { opacity: 1; color: var(--gold); }
+    /* ── NAV ── */
+    nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:24px 60px; display:flex; align-items:center; justify-content:space-between; transition:background 0.4s, border-color 0.4s; border-bottom:1px solid transparent; }
+    nav.scrolled { background:rgba(8,8,8,0.96); border-bottom-color:var(--border); backdrop-filter:blur(12px); }
+    .nav-logo { font-family:'Syncopate',sans-serif; font-size:22px; font-weight:700; color:var(--gold); letter-spacing:0.12em; text-decoration:none; }
+    .nav-links { display:flex; gap:36px; list-style:none; }
+    .nav-links a { font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:var(--cream); text-decoration:none; opacity:0.7; transition:opacity 0.2s, color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { opacity:1; color:var(--gold); }
+    .theme-toggle { background:none; border:1px solid var(--border); width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; transition:border-color 0.2s, transform 0.3s; flex-shrink:0; }
+    .theme-toggle:hover { border-color:var(--gold); transform:rotate(20deg); }
 
-    /* Hero image */
-    .hero {
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
-      overflow: hidden;
-      padding: 0 60px;
-      background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1800&q=80');
-      background-size: cover;
-      background-position: center;
-    }
-    .hero::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.75) 50%, rgba(8,8,8,0.95) 100%);
-      z-index: 1;
-    }
-    .hero-grid, .hero-glow, .hero-content, .hero-scroll { z-index: 2; }
+    /* ── LIGHT MODE ── */
+    body.light { background:#F8F4EE !important; color:#1A1A1A !important; }
+    body.light nav.scrolled { background:rgba(248,244,238,0.97) !important; }
+    body.light .nav-links a { color:#1A1A1A !important; }
+    body.light .section-title, body.light h1, body.light h2, body.light h3 { color:#1A1A1A !important; }
+    body.light .hero-title { color:#1A1A1A !important; }
+    body.light .hero-subtitle, body.light .hero-sub { color:#4a4540 !important; }
+    body.light section { background:#F8F4EE !important; }
+    body.light .about-strip, body.light .blog-preview, body.light .vision-statement,
+    body.light .why-ev, body.light .roadmap, body.light .contact, body.light .disclaimer { background:#EDE8E0 !important; }
+    body.light .about-left, body.light .about-right, body.light .featured-meta,
+    body.light .sidebar-box, body.light .expertise-card, body.light .why-card,
+    body.light .price-card, body.light .context-box, body.light footer { background:#EDE8E0 !important; }
+    body.light .service-card, body.light .blog-card, body.light .article-card { background:#FFFFFF !important; }
+    body.light .about-body p, body.light .sidebar-val, body.light .service-desc,
+    body.light .article-title, body.light .blog-title, body.light .article-excerpt,
+    body.light .blog-excerpt, body.light .timeline-desc, body.light .ev-text p,
+    body.light .vs-text p, body.light .context-box p, body.light .contact-info p,
+    body.light .full-article-body p, body.light .why-desc, body.light .detail-val,
+    body.light .footer-text, body.light .price-value, body.light .about-text { color:#1A1A1A !important; }
+    body.light .form-input, body.light .form-textarea, body.light .form-select { background:#FFFFFF !important; color:#1A1A1A !important; }
+    body.light .form-input::placeholder, body.light .form-textarea::placeholder { color:#9a9490 !important; }
+    body.light .about-main, body.light .services-section, body.light .blog-listing,
+    body.light .market-context, body.light .price-board, body.light .cta-section,
+    body.light .philosophy, body.light .expertise, body.light .follow-section,
+    body.light .contact-main { background:#F8F4EE !important; }
 
-    /* Animated grid background */
-    .hero-grid {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-      background-size: 80px 80px;
-      animation: gridShift 20s linear infinite;
-    }
-    @keyframes gridShift {
-      from { transform: translateY(0); }
-      to { transform: translateY(80px); }
+    /* ── SHARED COMPONENTS ── */
+    .section-label { font-family:'Syncopate',sans-serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:block; }
+    .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,5vw,64px); font-weight:300; color:var(--cream); line-height:1.1; }
+    .section-title em, h1 em, h2 em { font-style:italic; color:var(--gold); }
+    .divider { width:60px; height:1px; background:var(--gold); margin:32px 0; }
+    .btn-primary { padding:16px 44px; background:var(--gold); color:var(--black); font-family:'Syncopate',sans-serif; font-size:9px; letter-spacing:0.3em; text-transform:uppercase; text-decoration:none; font-weight:700; display:inline-block; transition:background 0.2s, transform 0.2s; border:none; }
+    .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
+    .btn-outline { padding:16px 44px; border:1px solid var(--border); color:var(--cream); font-family:'Syncopate',sans-serif; font-size:9px; letter-spacing:0.3em; text-transform:uppercase; text-decoration:none; display:inline-block; transition:border-color 0.2s, color 0.2s, transform 0.2s; }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+    .page-hero { padding:170px 60px 100px; position:relative; overflow:hidden; border-bottom:1px solid var(--border); background:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1800&q=80') center/cover; }
+    .page-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(8,8,8,0.88),rgba(8,8,8,0.97)); z-index:0; }
+    .page-hero > * { position:relative; z-index:1; }
+    .page-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,7vw,88px); font-weight:300; color:var(--cream); line-height:1.0; margin-top:16px; }
+    .page-hero p.sub { font-family:'Cormorant Garamond',serif; font-size:18px; line-height:1.9; color:var(--muted); max-width:560px; margin-top:24px; }
+
+    /* ── FOOTER ── */
+    footer { background:var(--black); border-top:1px solid var(--border); padding:56px 60px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px; }
+    .footer-logo { font-family:'Syncopate',sans-serif; font-size:18px; font-weight:700; color:var(--gold); }
+    .footer-center { text-align:center; }
+    #live-date { font-family:'Syncopate',sans-serif; font-size:8px; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; }
+    .footer-text { font-size:11px; color:var(--muted); margin-top:6px; }
+    .footer-links { display:flex; gap:24px; list-style:none; }
+    .footer-links a { font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+    .footer-links a:hover { color:var(--gold); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+    @media(max-width:900px) {
+      nav { padding:20px 24px; }
+      .nav-links { display:none; }
+      section, .page-hero, footer { padding-left:24px !important; padding-right:24px !important; }
+      footer { flex-direction:column; text-align:center; }
     }
 
-    .hero-glow {
-      position: absolute;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: pulse 6s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-    }
+    /* Hero */
+    .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:0 60px;
+      background:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1800&q=80') center/cover; }
+    .hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(8,8,8,0.82),rgba(8,8,8,0.92)); z-index:0; }
+    .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px); background-size:80px 80px; z-index:1; animation:gridShift 20s linear infinite; }
+    @keyframes gridShift { from{transform:translateY(0)} to{transform:translateY(80px)} }
+    .hero-content { position:relative; z-index:2; text-align:center; max-width:860px; }
+    .hero-eyebrow { font-family:'Syncopate',sans-serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:28px; display:block; animation:fadeUp 0.8s ease forwards 0.2s; opacity:0; }
+    .hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(64px,11vw,128px); font-weight:300; line-height:0.95; color:var(--cream); animation:fadeUp 0.8s ease forwards 0.4s; opacity:0; }
+    .hero-subtitle { font-size:14px; line-height:2; color:var(--muted); max-width:480px; margin:28px auto 0; animation:fadeUp 0.8s ease forwards 0.6s; opacity:0; }
+    .hero-cta { display:flex; gap:20px; justify-content:center; margin-top:48px; animation:fadeUp 0.8s ease forwards 0.8s; opacity:0; flex-wrap:wrap; }
+    .hero-scroll { position:absolute; bottom:36px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:10px; z-index:2; opacity:0; animation:fadeUp 0.8s ease forwards 1.2s; }
+    .hero-scroll span { font-family:'Syncopate',sans-serif; font-size:8px; letter-spacing:0.4em; color:var(--muted); text-transform:uppercase; }
+    .scroll-line { width:1px; height:48px; background:linear-gradient(to bottom,var(--gold),transparent); animation:scrollLine 1.5s ease-in-out infinite; }
+    @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform:scaleY(1);transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
 
-    .hero-content {
-      position: relative; z-index: 2;
-      text-align: center;
-      max-width: 900px;
-    }
-    .hero-eyebrow {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.3s;
-    }
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(64px, 10vw, 120px);
-      font-weight: 300;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: var(--cream);
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.5s;
-    }
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
-    .hero-subtitle {
-      font-size: 14px;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-top: 32px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.8;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.7s;
-    }
-    .hero-cta {
-      display: inline-flex; gap: 20px;
-      margin-top: 56px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.9s;
-    }
-    .btn-primary {
-      padding: 16px 44px;
-      background: var(--gold);
-      color: var(--black);
-      font-family: 'Syncopate', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-weight: 700;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-    .btn-outline {
-      padding: 16px 44px;
-      border: 1px solid var(--border);
-      color: var(--cream);
-      font-family: 'Syncopate', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    /* About strip */
+    .about-strip { background:var(--deep); border-top:1px solid var(--border); border-bottom:1px solid var(--border); display:grid; grid-template-columns:1fr 1fr; }
+    .about-left { padding:90px 80px; border-right:1px solid var(--border); }
+    .about-right { padding:90px 80px; display:flex; flex-direction:column; justify-content:center; gap:40px; }
+    .about-text { font-family:'Cormorant Garamond',serif; font-size:21px; line-height:1.75; font-weight:300; color:var(--cream); opacity:0.85; }
+    .stat { border-left:1px solid var(--border); padding-left:28px; }
+    .stat-num { font-family:'Cormorant Garamond',serif; font-size:52px; font-weight:300; color:var(--gold); line-height:1; }
+    .stat-label { font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-top:6px; }
 
-    .hero-scroll {
-      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      opacity: 0; animation: fadeUp 0.8s ease forwards 1.2s;
-    }
-    .hero-scroll span {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 8px; letter-spacing: 0.4em;
-      color: var(--muted); text-transform: uppercase;
-    }
-    .scroll-line {
-      width: 1px; height: 50px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      animation: scrollLine 1.5s ease-in-out infinite;
-    }
-    @keyframes scrollLine {
-      0% { transform: scaleY(0); transform-origin: top; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      51% { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
+    /* Services */
+    .services { padding:100px 60px; background:var(--black); border-bottom:1px solid var(--border); }
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); margin-top:60px; }
+    .service-card { background:var(--black); padding:52px 40px; text-decoration:none; color:inherit; display:block; position:relative; overflow:hidden; transition:background 0.3s; }
+    .service-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+    .service-card:hover { background:rgba(201,168,76,0.04); }
+    .service-card:hover::before { transform:scaleX(1); }
+    .service-num { font-family:'Cormorant Garamond',serif; font-size:72px; font-weight:300; color:rgba(201,168,76,0.1); line-height:1; margin-bottom:24px; }
+    .service-icon { font-size:28px; margin-bottom:16px; }
+    .service-name { font-family:'Syncopate',sans-serif; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--cream); margin-bottom:14px; }
+    .service-desc { font-size:13px; line-height:1.8; color:var(--muted); }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    /* Blog preview */
+    .blog-preview { background:var(--deep); border-bottom:1px solid var(--border); padding:100px 60px; }
+    .blog-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; flex-wrap:wrap; gap:24px; }
+    .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+    .blog-card { border:1px solid var(--border); overflow:hidden; text-decoration:none; color:inherit; display:block; transition:border-color 0.3s, transform 0.3s; }
+    .blog-card:hover { border-color:var(--gold); transform:translateY(-4px); }
+    .blog-card-img { height:180px; background-size:cover; background-position:center; filter:brightness(0.65); }
+    .blog-card-body { padding:32px; }
+    .blog-tag { font-family:'Syncopate',sans-serif; font-size:8px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; display:block; }
+    .blog-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; line-height:1.3; color:var(--cream); margin-bottom:12px; }
+    .blog-excerpt { font-size:13px; line-height:1.8; color:var(--muted); }
+    .blog-meta { margin-top:24px; padding-top:16px; border-top:1px solid var(--border); font-size:11px; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; }
 
-    /* SECTION SHARED */
-    section { padding: 120px 60px; }
-    .section-label {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 9px; letter-spacing: 0.4em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 20px;
-    }
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 5vw, 64px);
-      font-weight: 300; line-height: 1.1;
-      color: var(--cream);
-    }
-    .section-title em { font-style: italic; color: var(--gold); }
-    .divider {
-      width: 60px; height: 1px;
-      background: var(--gold); margin: 40px 0;
-    }
+    /* EV teaser */
+    .ev-teaser { padding:100px 60px; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+    .ev-teaser::before { content:'EV'; position:absolute; right:-40px; top:50%; transform:translateY(-50%); font-family:'Cormorant Garamond',serif; font-size:380px; font-weight:300; color:rgba(201,168,76,0.03); line-height:1; pointer-events:none; }
+    .ev-inner { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; position:relative; z-index:1; }
+    .ev-circle-wrap { display:flex; align-items:center; justify-content:center; }
+    .ev-circle { width:320px; height:320px; border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; animation:spin 30s linear infinite; }
+    .ev-circle::before { content:''; position:absolute; inset:20px; border-radius:50%; border:1px solid rgba(201,168,76,0.2); }
+    .ev-dot { position:absolute; width:10px; height:10px; background:var(--gold); border-radius:50%; top:-5px; left:50%; transform:translateX(-50%); }
+    .ev-circle-inner { animation:spin 30s linear infinite reverse; text-align:center; }
+    .ev-circle-inner .big { font-family:'Cormorant Garamond',serif; font-size:72px; font-weight:300; color:var(--gold); line-height:1; }
+    .ev-circle-inner .small { font-family:'Syncopate',sans-serif; font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    .ev-text p { font-size:15px; line-height:2; color:var(--muted); margin-bottom:18px; }
+    .ev-text p strong { color:var(--cream); font-weight:400; }
 
-    /* ABOUT STRIP */
-    .about-strip {
-      background: var(--deep);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-    .about-left {
-      padding: 100px 80px;
-      border-right: 1px solid var(--border);
-    }
-    .about-right {
-      padding: 100px 80px;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .about-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; line-height: 1.7;
-      font-weight: 300; color: var(--cream);
-      opacity: 0.85;
-    }
-    .about-text em { font-style: italic; color: var(--gold); }
-    .about-stats {
-      display: flex; flex-direction: column; gap: 40px;
-    }
-    .stat { border-left: 1px solid var(--border); padding-left: 28px; }
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 52px; font-weight: 300; color: var(--gold);
-      line-height: 1;
-    }
-    .stat-label {
-      font-size: 11px; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--muted);
-      margin-top: 6px;
-    }
+    /* Contact */
+    .contact-home { background:var(--deep); border-top:1px solid var(--border); padding:100px 60px; }
+    .contact-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:100px; }
+    .contact-info p { font-size:14px; line-height:2; color:var(--muted); margin:24px 0 40px; }
+    .contact-detail { display:flex; flex-direction:column; gap:20px; }
+    .ci { border-left:2px solid var(--border); padding-left:20px; }
+    .ci-label { font-family:'Syncopate',sans-serif; font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+    .ci-val { font-size:13px; color:var(--cream); opacity:0.75; }
+    .contact-form { display:flex; flex-direction:column; gap:20px; }
+    .form-group { display:flex; flex-direction:column; gap:8px; }
+    .form-label { font-family:'Syncopate',sans-serif; font-size:8px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted); }
+    .form-input, .form-textarea { background:transparent; border:1px solid var(--border); padding:14px 18px; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:14px; outline:none; transition:border-color 0.2s; width:100%; }
+    .form-input:focus, .form-textarea:focus { border-color:var(--gold); }
+    .form-textarea { resize:vertical; min-height:130px; }
+    .form-input::placeholder, .form-textarea::placeholder { color:var(--muted); }
 
-    /* SERVICES */
-    .services { background: var(--black); }
-    .services-header { max-width: 600px; margin-bottom: 80px; }
-    .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1px; background: var(--border);
+    @media(max-width:900px) {
+      .about-strip, .ev-inner, .contact-grid { grid-template-columns:1fr; }
+      .about-left { border-right:none; border-bottom:1px solid var(--border); padding:60px 24px; }
+      .about-right { padding:60px 24px; }
+      .services-grid, .blog-grid { grid-template-columns:1fr; }
+      .ev-circle { width:220px; height:220px; }
+      .ev-circle-inner .big { font-size:52px; }
     }
-    .service-card {
-      background: var(--black);
-      padding: 56px 44px;
-      position: relative; overflow: hidden;
-      transition: background 0.3s;
-      text-decoration: none; color: inherit;
-      display: block;
-    }
-    .service-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 2px; background: var(--gold);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .service-card:hover { background: rgba(201,168,76,0.04); }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 80px; font-weight: 300;
-      color: rgba(201,168,76,0.1); line-height: 1;
-      margin-bottom: 32px;
-    }
-    .service-icon {
-      font-size: 28px; margin-bottom: 20px;
-    }
-    .service-name {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 11px; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--cream);
-      margin-bottom: 16px;
-    }
-    .service-desc {
-      font-size: 13px; line-height: 1.8;
-      color: var(--muted);
-    }
-
-    /* BLOG PREVIEW */
-    .blog-preview { background: var(--deep); border-top: 1px solid var(--border); }
-    .blog-header {
-      display: flex; justify-content: space-between;
-      align-items: flex-end; margin-bottom: 60px;
-    }
-    .blog-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-    }
-    .blog-card {
-      border: 1px solid var(--border);
-      padding: 40px 36px;
-      transition: border-color 0.3s, transform 0.3s;
-      cursor: pointer;
-      text-decoration: none; color: inherit;
-    }
-    .blog-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-    .blog-tag {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 8px; letter-spacing: 0.35em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 20px;
-    }
-    .blog-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px; font-weight: 400; line-height: 1.3;
-      color: var(--cream); margin-bottom: 16px;
-    }
-    .blog-excerpt {
-      font-size: 13px; line-height: 1.8;
-      color: var(--muted);
-    }
-    .blog-meta {
-      margin-top: 28px; padding-top: 20px;
-      border-top: 1px solid var(--border);
-      font-size: 11px; letter-spacing: 0.1em;
-      color: var(--muted); text-transform: uppercase;
-    }
-
-    /* EV VISION */
-    .ev-vision {
-      background: var(--black);
-      border-top: 1px solid var(--border);
-      position: relative; overflow: hidden;
-    }
-    .ev-vision::before {
-      content: 'EV';
-      position: absolute; right: -40px; top: 50%;
-      transform: translateY(-50%);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 400px; font-weight: 300;
-      color: rgba(201,168,76,0.03);
-      line-height: 1; pointer-events: none;
-    }
-    .ev-inner {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 100px; align-items: center;
-      position: relative; z-index: 1;
-    }
-    .ev-text h2 { margin-bottom: 32px; }
-    .ev-text p {
-      font-size: 15px; line-height: 2;
-      color: var(--muted); margin-bottom: 20px;
-    }
-    .ev-text p strong { color: var(--cream); font-weight: 400; }
-    .ev-visual {
-      display: flex; align-items: center; justify-content: center;
-    }
-    .ev-circle {
-      width: 360px; height: 360px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column;
-      position: relative;
-      animation: rotate 30s linear infinite;
-    }
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .ev-circle::before {
-      content: '';
-      position: absolute; inset: 20px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.2);
-    }
-    .ev-circle-inner {
-      text-align: center;
-      animation: rotate 30s linear infinite reverse;
-    }
-    .ev-circle-inner .big {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 80px; font-weight: 300; color: var(--gold);
-      line-height: 1;
-    }
-    .ev-circle-inner .small {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 9px; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--muted);
-    }
-    .ev-dot {
-      position: absolute;
-      width: 10px; height: 10px;
-      background: var(--gold); border-radius: 50%;
-      top: -5px; left: 50%; transform: translateX(-50%);
-    }
-
-    /* CONTACT */
-    .contact {
-      background: var(--deep);
-      border-top: 1px solid var(--border);
-    }
-    .contact-inner {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 100px;
-    }
-    .contact-info h2 { margin-bottom: 32px; }
-    .contact-info p {
-      font-size: 14px; line-height: 1.9;
-      color: var(--muted); margin-bottom: 48px;
-    }
-    .contact-detail {
-      display: flex; flex-direction: column; gap: 20px;
-    }
-    .contact-item {
-      display: flex; align-items: flex-start; gap: 16px;
-    }
-    .contact-item-label {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 8px; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--gold);
-      min-width: 80px; padding-top: 2px;
-    }
-    .contact-item-val {
-      font-size: 13px; color: var(--cream); opacity: 0.7;
-    }
-    .contact-form { display: flex; flex-direction: column; gap: 24px; }
-    .form-group { display: flex; flex-direction: column; gap: 10px; }
-    .form-label {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 8px; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--muted);
-    }
-    .form-input, .form-textarea {
-      background: transparent;
-      border: 1px solid var(--border);
-      padding: 16px 20px;
-      color: var(--cream);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
-    .form-textarea { resize: vertical; min-height: 140px; }
-    .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
-
-    /* FOOTER */
-    footer {
-      background: var(--black);
-      border-top: 1px solid var(--border);
-      padding: 60px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .footer-logo {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 18px; font-weight: 700;
-      color: var(--gold); letter-spacing: 0.15em;
-    }
-    .footer-text {
-      font-size: 12px; color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-    .footer-links {
-      display: flex; gap: 28px; list-style: none;
-    }
-    .footer-links a {
-      font-size: 11px; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--muted);
-      text-decoration: none; transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--gold); }
-
-    /* LIVE DATE */
-    #live-date {
-      font-family: 'Syncopate', sans-serif;
-      font-size: 9px; letter-spacing: 0.25em;
-      color: var(--gold); text-transform: uppercase;
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      nav { padding: 24px 28px; }
-      section { padding: 80px 28px; }
-      .hero { padding: 0 28px; }
-      .about-strip, .ev-inner, .contact-inner { grid-template-columns: 1fr; }
-      .about-left { border-right: none; border-bottom: 1px solid var(--border); padding: 60px 28px; }
-      .about-right { padding: 60px 28px; }
-      .services-grid { grid-template-columns: 1fr; }
-      .blog-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      footer { flex-direction: column; gap: 24px; text-align: center; }
-      .ev-circle { width: 240px; height: 240px; }
-      .ev-circle-inner .big { font-size: 56px; }
-    }
-
-    
-    /* Light mode overrides */
-    body.light {
-      --black: #F8F4EE;
-      --deep: #EDE8E0;
-      --cream: #1A1A1A;
-      --muted: #6b6560;
-      --border: rgba(201,168,76,0.35);
-      background: #F8F4EE;
-      color: #1A1A1A;
-    }
-    body.light nav {
-      background: rgba(248,244,238,0.97) !important;
-    }
-    body.light .about-strip,
-    body.light .blog-preview,
-    body.light .contact,
-    body.light .ev-vision,
-    body.light footer {
-      background: #EDE8E0;
-    }
-    body.light .services,
-    body.light .blog-listing,
-    body.light .services-section,
-    body.light .about-main,
-    body.light .why-ev,
-    body.light .expertise,
-    body.light .contact-main,
-    body.light .market-context {
-      background: #F8F4EE;
-    }
-    body.light .service-card,
-    body.light .article-card,
-    body.light .blog-card,
-    body.light .price-card,
-    body.light .context-box,
-    body.light .sidebar-box,
-    body.light .expertise-card,
-    body.light .why-card,
-    body.light .timeline-dot {
-      background: #FFFFFF;
-    }
-    body.light .hero-title,
-    body.light .section-title,
-    body.light h1, body.light h2, body.light h3 {
-      color: #1A1A1A;
-    }
-    body.light .nav-links a { color: #1A1A1A; }
-    body.light .footer-logo { color: var(--gold); }
-    body.light .form-input,
-    body.light .form-textarea,
-    body.light .form-select {
-      background: #FFFFFF;
-      color: #1A1A1A;
-      border-color: rgba(201,168,76,0.3);
-    }
-    body.light .ev-vision::before { color: rgba(201,168,76,0.06); }
-    body.light * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='5' fill='%23c9a84c'/%3E%3Ccircle cx='20' cy='20' r='17' fill='none' stroke='%23c9a84c' stroke-width='1.2' opacity='0.6'/%3E%3C/svg%3E") 20 20, auto !important; }
-
-
-    /* ── LIGHT MODE TOGGLE ── */
-    .theme-toggle {
-      background: none;
-      border: 1px solid var(--border);
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      transition: border-color 0.2s, transform 0.3s;
-      flex-shrink: 0;
-    }
-    .theme-toggle:hover { border-color: var(--gold); transform: rotate(20deg); }
-
-    body.light {
-      background: #F8F4EE !important;
-      color: #1A1A1A !important;
-    }
-    body.light nav, body.light nav.scrolled {
-      background: rgba(248,244,238,0.97) !important;
-    }
-    body.light section,
-    body.light .about-strip, body.light .about-left, body.light .about-right,
-    body.light .about-main, body.light .services, body.light .blog-preview,
-    body.light .blog-listing, body.light .ev-vision, body.light .contact,
-    body.light .contact-main, body.light .philosophy, body.light .expertise,
-    body.light .why-ev, body.light .roadmap, body.light .vision-statement,
-    body.light .follow-section, body.light .market-context, body.light .price-board,
-    body.light .disclaimer, body.light .services-section, body.light .cta-section,
-    body.light .page-hero ~ * { background: #F8F4EE !important; }
-    body.light .about-right, body.light .featured-meta, body.light .blog-card,
-    body.light .service-card, body.light .article-card, body.light .sidebar-box,
-    body.light .expertise-card, body.light .why-card, body.light .context-box,
-    body.light .price-card, body.light .vs-quote, body.light footer { background: #EDE8E0 !important; }
-    body.light h1, body.light h2, body.light h3, body.light .hero-title,
-    body.light .section-title, body.light .about-text, body.light .about-body p,
-    body.light .sidebar-val, body.light .service-desc, body.light .article-title,
-    body.light .blog-title, body.light .article-excerpt, body.light .blog-excerpt,
-    body.light .timeline-desc, body.light .ev-text p, body.light .vs-text p,
-    body.light .context-box p, body.light .contact-info p, body.light .full-article-body p,
-    body.light .why-desc, body.light .detail-val, body.light .footer-text,
-    body.light .price-value { color: #1A1A1A !important; }
-    body.light .nav-links a { color: #1A1A1A !important; opacity: 0.8 !important; }
-    body.light .form-input, body.light .form-textarea, body.light .form-select {
-      background: #FFFFFF !important; color: #1A1A1A !important;
-    }
-    body.light .form-input::placeholder, body.light .form-textarea::placeholder { color: #9a9490 !important; }
-    body.light .hero-subtitle, body.light .hero-sub { color: #4a4540 !important; }
-
   </style>
 </head>
 <body>
-
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- NAV -->
-  <nav id="nav">
+  <nav id="sitenav">
     <a href="index.html" class="nav-logo">REIZA</a>
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="blog.html">Insights</a></li>
-      <li><a href="vision.html">EV Vision</a></li>
-      <li><a href="markets.html">Markets</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html" >About</a></li>
+      <li><a href="services.html" >Services</a></li>
+      <li><a href="blog.html" >Insights</a></li>
+      <li><a href="vision.html" >EV Vision</a></li>
+      <li><a href="markets.html" >Markets</a></li>
+      <li><a href="contact.html" >Contact</a></li>
     </ul>
-    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">🌙</button>
+    <button class="theme-toggle" id="themeToggle" title="Toggle light/dark">🌙</button>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow">Energy Consultancy · Nigeria · Est. 2026</p>
+      <span class="hero-eyebrow">Energy Consultancy · Nigeria · Est. 2026</span>
       <h1 class="hero-title">REIZA<br><em>Energy</em></h1>
       <p class="hero-subtitle">Indigenous energy expertise for a continent in transition — from the depths of oil & gas to the future of sustainable power.</p>
       <div class="hero-cta">
@@ -678,113 +214,90 @@
     </div>
   </section>
 
-  <!-- ABOUT STRIP -->
   <div class="about-strip">
     <div class="about-left">
-      <p class="section-label">Who We Are</p>
-      <p class="about-text">
-        REIZA is an energy consultancy rooted in the heart of Nigeria's oil & gas industry — <em>indigenous, expert, and forward-thinking.</em> We bridge the gap between where African energy stands today and where it needs to go tomorrow.
-      </p>
+      <span class="section-label">Who We Are</span>
+      <p class="about-text">REIZA is an energy consultancy rooted in the heart of Nigeria's oil & gas industry — <em>indigenous, expert, and forward-thinking.</em> We bridge the gap between where African energy stands today and where it needs to go tomorrow.</p>
       <br><br>
-      <p class="about-text">
-        From drilling engineering and well analysis to geothermal innovation and EV infrastructure, we consult across the full energy spectrum.
-      </p>
+      <p class="about-text">From drilling engineering and well analysis to geothermal innovation and EV infrastructure, we consult across the full energy spectrum.</p>
     </div>
     <div class="about-right">
-      <div class="about-stats">
-        <div class="stat">
-          <div class="stat-num">3+</div>
-          <div class="stat-label">Years in Upstream Operations</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Vision for Nigeria's Energy Future</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">4</div>
-          <div class="stat-label">Core Service Pillars</div>
-        </div>
-      </div>
+      <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Years in Upstream Operations</div></div>
+      <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Vision for Nigeria's Energy Future</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Core Service Pillars</div></div>
     </div>
   </div>
 
-  <!-- SERVICES -->
   <section class="services">
-    <div class="services-header">
-      <p class="section-label">What We Do</p>
-      <h2 class="section-title">Energy expertise,<br><em>end to end</em></h2>
-    </div>
+    <span class="section-label">What We Do</span>
+    <h2 class="section-title">Energy expertise,<br><em>end to end</em></h2>
     <div class="services-grid">
       <a href="services.html#petroleum" class="service-card">
-        <div class="service-num">01</div>
-        <div class="service-icon">⛽</div>
+        <div class="service-num">01</div><div class="service-icon">⛽</div>
         <div class="service-name">Petroleum & Oil & Gas</div>
         <p class="service-desc">Upstream analysis, well performance, NPT reduction, and operational strategy for Nigerian oil & gas assets.</p>
       </a>
       <a href="services.html#drilling" class="service-card">
-        <div class="service-num">02</div>
-        <div class="service-icon">🔩</div>
+        <div class="service-num">02</div><div class="service-icon">🔩</div>
         <div class="service-name">Drilling Engineering</div>
         <p class="service-desc">Well planning, drilling programs, contractor coordination, end-of-well reporting, and technical advisory services.</p>
       </a>
       <a href="services.html#geothermal" class="service-card">
-        <div class="service-num">03</div>
-        <div class="service-icon">🌋</div>
+        <div class="service-num">03</div><div class="service-icon">🌋</div>
         <div class="service-name">Geothermal Energy</div>
         <p class="service-desc">Feasibility assessments and technical advisory for geothermal energy development across West Africa.</p>
       </a>
     </div>
-    <div style="text-align:center; margin-top: 60px;">
-      <a href="services.html" class="btn-outline">View All Services</a>
-    </div>
+    <div style="text-align:center;margin-top:52px;"><a href="services.html" class="btn-outline">View All Services</a></div>
   </section>
 
-  <!-- BLOG PREVIEW -->
   <section class="blog-preview">
     <div class="blog-header">
-      <div>
-        <p class="section-label">Insights</p>
-        <h2 class="section-title">Energy <em>intelligence</em></h2>
-      </div>
+      <div><span class="section-label">Insights</span><h2 class="section-title">Energy <em>intelligence</em></h2></div>
       <a href="blog.html" class="btn-outline">All Articles</a>
     </div>
     <div class="blog-grid">
-      <a href="blog.html#article1" class="blog-card">
-        <div style="height:180px;background:url('https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=600&q=80') center/cover;margin:-40px -36px 28px;filter:brightness(0.6);"></div>
-        <p class="blog-tag">Drilling</p>
-        <h3 class="blog-title">The True Cost of Non-Productive Time in Nigerian Wells</h3>
-        <p class="blog-excerpt">NPT remains one of the most significant value destroyers in upstream operations. Here's what the data tells us — and how to fight back.</p>
-        <div class="blog-meta">REIZA · Jan 2026</div>
+      <a href="blog.html" class="blog-card">
+        <div class="blog-card-img" style="background-image:url('https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=600&q=80')"></div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Drilling</span>
+          <h3 class="blog-title">The True Cost of Non-Productive Time in Nigerian Wells</h3>
+          <p class="blog-excerpt">NPT remains one of the most significant value destroyers in upstream operations.</p>
+          <div class="blog-meta">REIZA · Jan 2026</div>
+        </div>
       </a>
-      <a href="blog.html#article2" class="blog-card">
-        <div style="height:180px;background:url('https://images.unsplash.com/photo-1548337138-e87d889cc369?w=600&q=80') center/cover;margin:-40px -36px 28px;filter:brightness(0.6);"></div>
-        <p class="blog-tag">Geothermal</p>
-        <h3 class="blog-title">Why West Africa Needs to Take Geothermal Seriously</h3>
-        <p class="blog-excerpt">The continent sits on vast geothermal potential. The question isn't if — it's when, and who will lead the charge.</p>
-        <div class="blog-meta">REIZA · Feb 2026</div>
+      <a href="blog.html" class="blog-card">
+        <div class="blog-card-img" style="background-image:url('https://images.unsplash.com/photo-1548337138-e87d889cc369?w=600&q=80')"></div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Geothermal</span>
+          <h3 class="blog-title">Why West Africa Needs to Take Geothermal Seriously</h3>
+          <p class="blog-excerpt">The continent sits on vast geothermal potential. The question isn't if — it's when.</p>
+          <div class="blog-meta">REIZA · Feb 2026</div>
+        </div>
       </a>
-      <a href="blog.html#article3" class="blog-card">
-        <div style="height:180px;background:url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80') center/cover;margin:-40px -36px 28px;filter:brightness(0.6);"></div>
-        <p class="blog-tag">Energy Transition</p>
-        <h3 class="blog-title">Oil & Gas is Not the Enemy of a Just Energy Transition</h3>
-        <p class="blog-excerpt">Africa's energy transition must be built on African terms — and indigenous hydrocarbons have a role to play in funding the future.</p>
-        <div class="blog-meta">REIZA · Mar 2026</div>
+      <a href="blog.html" class="blog-card">
+        <div class="blog-card-img" style="background-image:url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80')"></div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Energy Transition</span>
+          <h3 class="blog-title">Oil & Gas is Not the Enemy of a Just Energy Transition</h3>
+          <p class="blog-excerpt">Africa's energy transition must be built on African terms.</p>
+          <div class="blog-meta">REIZA · Mar 2026</div>
+        </div>
       </a>
     </div>
   </section>
 
-  <!-- EV VISION TEASER -->
-  <section class="ev-vision">
+  <section class="ev-teaser">
     <div class="ev-inner">
       <div class="ev-text">
-        <p class="section-label">Future Vision</p>
+        <span class="section-label">Future Vision</span>
         <h2 class="section-title">Building Nigeria's<br><em>EV future</em></h2>
         <div class="divider"></div>
         <p>REIZA's long-term vision extends beyond consultancy. We are working toward <strong>owning and operating Nigeria's first premium EV charging infrastructure</strong> — built by an indigenous energy professional, for the Nigerian market.</p>
         <p>The energy transition is not something happening to Nigeria. We intend to be <strong>the ones building it.</strong></p>
-        <a href="vision.html" class="btn-outline" style="margin-top: 16px; display: inline-block;">Read Our Vision</a>
+        <a href="vision.html" class="btn-outline" style="margin-top:12px;">Read Our Vision</a>
       </div>
-      <div class="ev-visual">
+      <div class="ev-circle-wrap">
         <div class="ev-circle">
           <div class="ev-dot"></div>
           <div class="ev-circle-inner">
@@ -796,57 +309,32 @@
     </div>
   </section>
 
-  <!-- CONTACT TEASER -->
-  <section class="contact">
-    <div class="contact-inner">
+  <section class="contact-home">
+    <div class="contact-grid">
       <div class="contact-info">
-        <p class="section-label">Work With Us</p>
+        <span class="section-label">Work With Us</span>
         <h2 class="section-title">Let's build<br><em>together</em></h2>
-        <div class="divider"></div>
-        <p>Whether you need drilling advisory, energy consulting, or want to explore what REIZA can do for your organisation, we'd love to hear from you.</p>
+        <p>Whether you need drilling advisory, energy consulting, or want to explore what REIZA can do for your organisation — we'd love to hear from you.</p>
         <div class="contact-detail">
-          <div class="contact-item">
-            <span class="contact-item-label">Email</span>
-            <span class="contact-item-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="355d5059595a7547505c4f54505b5047524c1b565a58">[email&#160;protected]</a></span>
-          </div>
-          <div class="contact-item">
-            <span class="contact-item-label">Based In</span>
-            <span class="contact-item-val">Nigeria</span>
-          </div>
-          <div class="contact-item">
-            <span class="contact-item-label">Scope</span>
-            <span class="contact-item-val">Nigeria · West Africa · Global Remote</span>
-          </div>
+          <div class="ci"><div class="ci-label">Email</div><div class="ci-val">hello@reizaenergy.com</div></div>
+          <div class="ci"><div class="ci-label">Based In</div><div class="ci-val">Nigeria</div></div>
+          <div class="ci"><div class="ci-label">Scope</div><div class="ci-val">Nigeria · West Africa · Global Remote</div></div>
         </div>
       </div>
-      <form class="contact-form" onsubmit="handleSubmit(event)">
-        <div class="form-group">
-          <label class="form-label">Your Name</label>
-          <input type="text" class="form-input" placeholder="Full name" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" placeholder="your@email.com" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Service Interest</label>
-          <input type="text" class="form-input" placeholder="e.g. Drilling Advisory, Geothermal Feasibility…">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Message</label>
-          <textarea class="form-textarea" placeholder="Tell us about your project or enquiry…" required></textarea>
-        </div>
-        <button type="submit" class="btn-primary" style="cursor: pointer; border: none; width: 100%;">Send Message</button>
+      <form class="contact-form" onsubmit="var e=this;e.querySelector('.btn-primary').textContent='Sent ✓';e.reset();return false;">
+        <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" placeholder="Full name" required></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="your@email.com" required></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" placeholder="Tell us about your project…" required></textarea></div>
+        <button type="submit" class="btn-primary" style="width:100%;border:none;">Send Message</button>
       </form>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="footer-logo">REIZA</div>
-    <div>
+    <div class="footer-center">
       <div id="live-date"></div>
-      <div class="footer-text" style="margin-top:6px;">© 2026 REIZA Energy Consultancy. All rights reserved.</div>
+      <div class="footer-text">© 2026 REIZA Energy Consultancy. All rights reserved.</div>
     </div>
     <ul class="footer-links">
       <li><a href="about.html">About</a></li>
@@ -857,69 +345,38 @@
     </ul>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
-    // Dark/Light mode toggle
-    const toggle = document.getElementById('themeToggle');
-    const saved = localStorage.getItem('reiza-theme');
-    if (saved === 'light') {
-      document.body.classList.add('light');
-      if(toggle) toggle.textContent = '☀️';
-    }
-    if(toggle) {
-      toggle.addEventListener('click', () => {
-        document.body.classList.toggle('light');
-        const isLight = document.body.classList.contains('light');
-        toggle.textContent = isLight ? '☀️' : '🌙';
-        localStorage.setItem('reiza-theme', isLight ? 'light' : 'dark');
-      });
-    }
-
-  </script><script>
-    // Smooth cursor using requestAnimationFrame
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-    let rx = mx, ry = my;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX;
-      my = e.clientY;
+  <script>
+    // Nav scroll effect
+    window.addEventListener('scroll', function() {
+      document.getElementById('sitenav').classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Hover effect on links/buttons
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.classList.add('hovering');
-        ring.classList.add('hovering');
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hovering');
-        ring.classList.remove('hovering');
-      });
-    });
-
-    function animateCursor() {
-      // Dot follows mouse exactly
-      cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
-      // Ring follows with smooth lag
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.transform = `translate(${rx - 20}px, ${ry - 20}px)`;
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    // Nav scroll
-    window.addEventListener('scroll', () => {
-      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-    });
-
-    // Live date
+    // Live date footer
     function updateDate() {
-      const now = new Date();
-      document.getElementById('live-date').textContent = now.toLocaleDateString('en-GB', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-        hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Lagos', timeZoneName: 'short'
+      var el = document.getElementById('live-date');
+      if (!el) return;
+      el.textContent = new Date().toLocaleDateString('en-GB', {
+        weekday:'long', day:'numeric', month:'long', year:'numeric',
+        timeZone:'Africa/Lagos'
       });
     }
-    updateDate(); setInterval
+    updateDate();
+    setInterval(updateDate, 60000);
+
+    // Theme Toggle — single clean implementation
+    (function() {
+      var btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      if (localStorage.getItem('reiza-theme') === 'light') {
+        document.body.classList.add('light');
+        btn.textContent = '☀️';
+      }
+      btn.onclick = function() {
+        var isLight = document.body.classList.toggle('light');
+        btn.textContent = isLight ? '☀️' : '🌙';
+        localStorage.setItem('reiza-theme', isLight ? 'light' : 'dark');
+      };
+    })();
+  </script>
+</body>
+</html>
