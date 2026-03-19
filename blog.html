@@ -138,7 +138,8 @@
     .full-body h2 { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:300; color:var(--cream); margin:44px 0 18px; }
     .full-body h2 em { color:var(--gold); font-style:italic; }
     .full-body blockquote { border-left:2px solid var(--gold); padding:22px 32px; margin:36px 0; font-family:'Cormorant Garamond',serif; font-size:22px; font-style:italic; color:var(--cream); opacity:0.85; }
-    .comments-sec { padding:56px 60px; border-top:1px solid var(--border); background:var(--deep); }
+    .comments-sec { padding:56px 60px 80px; border-top:2px solid var(--gold); background:var(--deep); position:relative; }
+    .comments-sec::before { content:''; display:block; width:40px; height:2px; background:var(--gold); margin-bottom:32px; }
 
     body.light .art-card { background:#FFFFFF !important; }
     body.light .articles-grid { background:rgba(201,168,76,0.15); }
@@ -274,7 +275,8 @@
     <button class="back-btn" onclick="closeArticle()">← Back to Insights</button>
     <div id="articleContent"></div>
     <div class="comments-sec">
-      <span class="section-label">Discussion</span>
+      <span class="section-label">Join the Discussion</span>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:32px;line-height:1.8;">Share your thoughts, questions or insights on this article below.</p>
       <div id="disqus_thread"></div>
     </div>
   </div>
@@ -374,6 +376,8 @@
         '<div class="full-hero"><span class="art-tag">'+a.tag+'</span><h1>'+a.title+'</h1><div class="byline">By Rahanat Mohammed · REIZA Energy · '+a.date+'</div></div>' +
         '<div class="full-body">'+a.body+'</div>';
       window.scrollTo(0,0);
+      // Reset disqus thread for this article
+      document.getElementById('disqus_thread').innerHTML = '';
       loadDisqus(id, a.title);
     }
     function closeArticle() {
