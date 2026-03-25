@@ -11,6 +11,7 @@
       --black: #080808; --deep: #0d0d0d; --gold: #c9a84c;
       --gold-light: #e8c97a; --cream: #f5f0e8; --muted: #6b6560;
       --border: rgba(201,168,76,0.2);
+      --green-energy: #2e7d52;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
@@ -30,33 +31,7 @@
     .theme-toggle { background:none; border:1px solid var(--border); width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; transition:border-color 0.2s, transform 0.3s; flex-shrink:0; }
     .theme-toggle:hover { border-color:var(--gold); transform:rotate(20deg); }
 
-    /* ── LIGHT MODE ── */
-    body.light { background:#F8F4EE !important; color:#1A1A1A !important; }
-    body.light nav.scrolled { background:rgba(248,244,238,0.97) !important; }
-    body.light .nav-links a { color:#1A1A1A !important; }
-    body.light .section-title, body.light h1, body.light h2, body.light h3 { color:#1A1A1A !important; }
-    body.light .hero-title { color:#1A1A1A !important; }
-    body.light .hero-subtitle, body.light .hero-sub { color:#4a4540 !important; }
-    body.light section { background:#F8F4EE !important; }
-    body.light .about-strip, body.light .blog-preview, body.light .vision-statement,
-    body.light .why-ev, body.light .roadmap, body.light .contact, body.light .disclaimer { background:#EDE8E0 !important; }
-    body.light .about-left, body.light .about-right, body.light .featured-meta,
-    body.light .sidebar-box, body.light .expertise-card, body.light .why-card,
-    body.light .price-card, body.light .context-box, body.light footer { background:#EDE8E0 !important; }
-    body.light .service-card, body.light .blog-card, body.light .article-card { background:#FFFFFF !important; }
-    body.light .about-body p, body.light .sidebar-val, body.light .service-desc,
-    body.light .article-title, body.light .blog-title, body.light .article-excerpt,
-    body.light .blog-excerpt, body.light .timeline-desc, body.light .ev-text p,
-    body.light .vs-text p, body.light .context-box p, body.light .contact-info p,
-    body.light .full-article-body p, body.light .why-desc, body.light .detail-val,
-    body.light .footer-text, body.light .price-value, body.light .about-text { color:#1A1A1A !important; }
-    body.light .form-input, body.light .form-textarea, body.light .form-select { background:#FFFFFF !important; color:#1A1A1A !important; }
-    body.light .form-input::placeholder, body.light .form-textarea::placeholder { color:#9a9490 !important; }
-    body.light .about-main, body.light .services-section, body.light .blog-listing,
-    body.light .market-context, body.light .price-board, body.light .cta-section,
-    body.light .philosophy, body.light .expertise, body.light .follow-section,
-    body.light .contact-main { background:#F8F4EE !important; }
-
+    
     /* ── SHARED COMPONENTS ── */
     .section-label { font-family:'Syncopate',sans-serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:block; }
     .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,5vw,64px); font-weight:300; color:var(--cream); line-height:1.1; }
@@ -66,7 +41,7 @@
     .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
     .btn-outline { padding:16px 44px; border:1px solid var(--border); color:var(--cream); font-family:'Syncopate',sans-serif; font-size:9px; letter-spacing:0.3em; text-transform:uppercase; text-decoration:none; display:inline-block; transition:border-color 0.2s, color 0.2s, transform 0.2s; }
     .btn-outline:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
-    .page-hero { padding:170px 60px 100px; position:relative; overflow:hidden; border-bottom:1px solid var(--border); background:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1800&q=80') center/cover; }
+    .page-hero { padding:170px 60px 100px; position:relative; overflow:hidden; border-bottom:1px solid var(--border); background:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1800&q=80') center/cover; }
     .page-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(8,8,8,0.88),rgba(8,8,8,0.97)); z-index:0; }
     .page-hero > * { position:relative; z-index:1; }
     .page-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(48px,7vw,88px); font-weight:300; color:var(--cream); line-height:1.0; margin-top:16px; }
@@ -93,7 +68,7 @@
 
     /* Hero */
     .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:0 60px;
-      background:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1800&q=80') center/cover; }
+      background:url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1800&q=80') center/cover; }
     .hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(8,8,8,0.82),rgba(8,8,8,0.92)); z-index:0; }
     .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.04) 1px,transparent 1px); background-size:80px 80px; z-index:1; animation:gridShift 20s linear infinite; }
     @keyframes gridShift { from{transform:translateY(0)} to{transform:translateY(80px)} }
@@ -180,6 +155,100 @@
       .ev-circle { width:220px; height:220px; }
       .ev-circle-inner .big { font-size:52px; }
     }
+
+    
+
+    /* ── LIGHT MODE ── */
+    body.light { background:#F8F4EE !important; color:#1A1A1A !important; }
+    body.light nav.scrolled { background:rgba(248,244,238,0.97) !important; border-bottom-color:rgba(201,168,76,0.3) !important; }
+
+    /* Nav */
+    body.light .nav-logo { color:var(--gold) !important; }
+    body.light .nav-links a { color:#1A1A1A !important; opacity:0.8 !important; }
+    body.light .nav-links a:hover, body.light .nav-links a.active { color:var(--gold) !important; opacity:1 !important; }
+    body.light .theme-toggle { border-color:rgba(201,168,76,0.4) !important; color:#1A1A1A !important; }
+
+    /* ALL headings - force dark */
+    body.light h1, body.light h2, body.light h3, body.light h4,
+    body.light .section-title, body.light .hero-title,
+    body.light .art-title, body.light .blog-title, body.light .tl-title,
+    body.light .service-name, body.light .svc-right h2, body.light .vs-text h2,
+    body.light .context-box h3, body.light .contact-info h2,
+    body.light .roadmap h2, body.light .feat-body .art-title,
+    body.light .exp-title, body.light .why-title { color:#1A1A1A !important; }
+
+    /* ALL body text - force dark */
+    body.light p, body.light li, body.light span:not(.section-label):not(.art-tag):not(.blog-tag):not(.nav-logo):not(.read-more):not(.feat-badge),
+    body.light .about-text, body.light .about-body p,
+    body.light .sidebar-val, body.light .service-desc, body.light .svc-right p,
+    body.light .art-excerpt, body.light .blog-excerpt, body.light .tl-desc,
+    body.light .ev-text p, body.light .vs-text p, body.light .context-box p,
+    body.light .contact-info p, body.light .full-body p,
+    body.light .why-desc, body.light .detail-val, body.light .footer-text,
+    body.light .hero-subtitle, body.light .hero-sub, body.light .page-hero p,
+    body.light .blog-hero p, body.light .ev-hero-content p, body.light .contact-hero p,
+    body.light .feat-body .art-excerpt, body.light .disclaimer p,
+    body.light .exp-desc, body.light .stat-label, body.light .ci-val,
+    body.light .price-unit { color:#2a2a2a !important; }
+
+    /* Muted text */
+    body.light .blog-meta, body.light .art-footer, body.light .feat-byline,
+    body.light .byline, body.light .price-update, body.light .price-ticker,
+    body.light .footer-links a, body.light .footer-text,
+    body.light .article-byline { color:#6b6560 !important; }
+
+    /* Price values */
+    body.light .price-value { color:#1A1A1A !important; }
+
+    /* Keep gold on accents */
+    body.light .stat-num, body.light .why-num, body.light .feat-date,
+    body.light .service-num, body.light .svc-num { color:var(--gold) !important; opacity:0.4 !important; }
+
+    /* Section backgrounds */
+    body.light section, body.light .listing { background:#F8F4EE !important; }
+    body.light .about-strip, body.light .blog-preview, body.light .vision-statement,
+    body.light .why-ev, body.light .contact, body.light .disclaimer,
+    body.light .comments-sec { background:#EDE8E0 !important; }
+    body.light .about-left, body.light .about-right, body.light .sidebar-box,
+    body.light .expertise-card, body.light .why-card, body.light .price-card,
+    body.light .context-box, body.light .vs-quote, body.light footer,
+    body.light .feat-body { background:#EDE8E0 !important; }
+    body.light .service-card, body.light .blog-card, body.light .art-card,
+    body.light .featured { background:#FFFFFF !important; border-color:rgba(201,168,76,0.2) !important; }
+    body.light .about-main, body.light .services-section, body.light .blog-listing,
+    body.light .market-context, body.light .price-board, body.light .cta-band,
+    body.light .philosophy, body.light .expertise, body.light .follow,
+    body.light .contact-main, body.light .ev-teaser, body.light .roadmap { background:#F8F4EE !important; }
+
+    /* Forms */
+    body.light .form-input, body.light .form-textarea,
+    body.light .form-select { background:#FFFFFF !important; color:#1A1A1A !important; border-color:rgba(201,168,76,0.35) !important; }
+    body.light .form-input::placeholder, body.light .form-textarea::placeholder { color:#9a9490 !important; }
+    body.light .form-label { color:#6b6560 !important; }
+    body.light .ci-label, body.light .sidebar-label,
+    body.light .detail-label { color:var(--gold) !important; }
+
+    /* Article full view */
+    body.light .full-body p { color:#2a2a2a !important; }
+    body.light .full-body h2 { color:#1A1A1A !important; }
+    body.light .full-body blockquote { color:#1A1A1A !important; border-left-color:var(--gold) !important; }
+    body.light .articles-grid { background:rgba(201,168,76,0.15) !important; }
+
+    /* Borders */
+    body.light .stat { border-left-color:rgba(201,168,76,0.35) !important; }
+    body.light .detail { border-left-color:rgba(201,168,76,0.4) !important; }
+
+
+    /* ── ENERGY GREEN ACCENTS ── */
+    .nav-links a.active { color:var(--green-energy) !important; opacity:1 !important; }
+    .divider { background: linear-gradient(to right, var(--gold), var(--green-energy)); }
+    .scroll-line { background: linear-gradient(to bottom, var(--green-energy), transparent); }
+    .live-dot { background: var(--green-energy) !important; }
+    .price-change.up { color: var(--green-energy) !important; }
+    .tl-dot.active { background: var(--green-energy) !important; border-color: var(--green-energy) !important; }
+    .service-card::before { background: linear-gradient(to right, var(--gold), var(--green-energy)); }
+    body.light .nav-links a.active { color:var(--green-energy) !important; }
+
   </style>
 </head>
 <body>
@@ -316,7 +385,7 @@
         <h2 class="section-title">Let's build<br><em>together</em></h2>
         <p>Whether you need drilling advisory, energy consulting, or want to explore what REIZA can do for your organisation — we'd love to hear from you.</p>
         <div class="contact-detail">
-          <div class="ci"><div class="ci-label">Email</div><div class="ci-val">hello@reizaenergy.com</div></div>
+          <div class="ci"><div class="ci-label">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2048454c4c4f605245495a41454e455247590e434f4d">[email&#160;protected]</a></div></div>
           <div class="ci"><div class="ci-label">Based In</div><div class="ci-val">Nigeria</div></div>
           <div class="ci"><div class="ci-label">Scope</div><div class="ci-val">Nigeria · West Africa · Global Remote</div></div>
         </div>
@@ -346,12 +415,12 @@
   </footer>
 
   <script>
-    // Nav scroll effect
+    // Nav scroll
     window.addEventListener('scroll', function() {
       document.getElementById('sitenav').classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Live date footer
+    // Live date
     function updateDate() {
       var el = document.getElementById('live-date');
       if (!el) return;
@@ -363,7 +432,7 @@
     updateDate();
     setInterval(updateDate, 60000);
 
-    // Theme Toggle — single clean implementation
+    // Theme Toggle
     (function() {
       var btn = document.getElementById('themeToggle');
       if (!btn) return;
